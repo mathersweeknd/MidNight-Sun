@@ -1,0 +1,95 @@
+﻿@page
+@model Clima.Pages.IndexModel
+@{
+    ViewData["Title"] = "";
+}
+
+<!-- VIDEO BACKGROUND  -->
+
+<div class="video-container">
+  <video autoplay muted loop playsinline id="video-dark">
+    <source src="./images/videodark.mp4" type="video/mp4">
+  </video>
+
+  <video autoplay muted loop playsinline id="video-light">
+    <source src="./images/videolight.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- TÍTULO e DESCRIÇÃO -->
+
+<div id="tituloo" class="text-center">
+    <h1>
+        <span class="dark-text">Mid</span><span class="dark-text">Night</span> <span class="light-text">Sun</span>
+        <a href="/index#top"><img src="./images/icon.png" alt="MidNight Sun" class="icon logo-image"></a>
+    </h1>
+</div>
+
+<div class="text-center mb-1">
+    <p class="description">O sol da meia-noite é a prova de que até na escuridão há brilho e esperança.</p>
+</div>
+
+<!-- BUSCA CLIMÁTICA -->
+
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><span id="titulo5">Buscar</span> <span id="titulo5">Clima</span></h5>
+                    <form method="post" id="weather-search-form">
+                        <div class="mb-3">
+                            <label for="Cidade" id="city-input" class="form-label">Cidade</label>
+                            <input type="text" asp-for="Cidade" id="city-input" class="form-control" placeholder="Digite a cidade">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary w-50 me-2" id="search-weather-btn">Buscar</button>
+                            <button type="button" class="btn btn-primary w-50" id="search-weather-btn">Histórico</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resultados</h5>
+                    <div id="weather-results">
+                        <div class="weather-result py-2">
+                            @if (Model.ClimaAtual != null)
+                            {
+                                <h6 class="mb-1"><span class="emoji">🏙️</span> @Model.ClimaAtual.Cidade</h6>
+                                <p class="mb-0"><span class="emoji">☁️</span> Clima: <span>@Model.ClimaAtual.Descricao</span></p>
+                                <p class="mb-0"><span class="emoji">🌡️</span> Temperatura: <span>@Model.ClimaAtual.Temperatura °C</span></p>
+                                <p class="mb-0"><span class="emoji">💧</span> Umidade: <span>@Model.ClimaAtual.Umidade %</span></p>
+                                <p class="mb-0"><span class="emoji">🔃</span> Pressão: <span>@Model.ClimaAtual.Pressao hPa</span></p>
+                                <p class="mb-0"><span class="emoji">📅</span> Data: <span>@Model.ClimaAtual.DataConsulta</span></p>
+                            }
+                            @if (TempData["Erro"] != null)
+                            {
+                                <script type="text/javascript">
+                                    Swal.fire({
+                                        icon: 'error',
+                                        iconHtml: '<img src="/images/icon.png" alt="Erro" style="width:70px;height:70px;">',
+                                        title: '    Houve um erro',
+                                        text: '@Html.Raw(TempData["Erro"] as string)',
+                                        customClass: {
+                                            popup: 'minha-caixa-de-erro',
+                                            title: 'meu-titulo-de-erro', 
+                                            icon: 'meu-icone-de-erro',
+                                            confirmButton: 'meu-botao',
+                                            htmlContainer: 'meu-texto-de-erro'
+                                        }
+                                    }).then(function() {
+                                        window.location.href = window.location.href.split('?')[0]; 
+                                    });
+                                </script>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
